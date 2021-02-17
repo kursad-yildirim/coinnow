@@ -9,7 +9,7 @@ var markets = {
 }
 
 // testConnection('binance');
-getSymbolList('binance');
+getSymbolList('binance',false);
 
 // FUNCTIONS
 function testConnection(marketName) {
@@ -27,7 +27,7 @@ function testConnection(marketName) {
 		});
 
 }
-function getSymbolList(marketName) {
+function getSymbolList(marketName, verifyNetwork) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
 		method: 'get',
@@ -37,19 +37,28 @@ function getSymbolList(marketName) {
 		method: 'get',
 		url: markets[marketName].url + '/api/v3/ping'
 	};
-	axios(acConTest)
-		.then(function (response) {
-			console.log('-> network connected');
-			axios(acGetSymblList)
-				.then(function (response) {
-					console.log('Symbol list fetched');
-//					console.log(response.data.symbols);
-				})
-				.catch(function (error) {
-					console.log('--> failed to get symbol list');
-				});
-		})
-		.catch(function (error) {
-			console.log('-> failed to connect to network');
-		});
+	if (verifyNetwork) {
+		axios(acConTest)
+			.then(function (response) {
+				console.log('-> network connected');
+				axios(acGetSymbolList)
+					.then(function (response) {
+						console.log(response.data.symbols);
+					})
+					.catch(function (error) {
+						console.log('--> failed to get symbol list');
+					});
+			})
+			.catch(function (error) {
+				console.log('-> failed to connect to network');
+			});
+	} else {
+		axios(acGetSymbolList)
+			.then(function (response) {
+				console.log(response.data.symbols);
+			})
+			.catch(function (error) {
+				console.log('--> failed to get symbol list');
+			});
+	}
 }
