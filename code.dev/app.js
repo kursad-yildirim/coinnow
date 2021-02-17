@@ -9,7 +9,7 @@ var markets = {
 }
 
 // testConnection('binance');
-getSymbolList('binance',false);
+getSymbolList('binance', true);
 
 // FUNCTIONS
 function testConnection(marketName) {
