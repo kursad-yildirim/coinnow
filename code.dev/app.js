@@ -40,13 +40,14 @@ function getSymbolList(marketName) {
 	axios(acConTest)
 		.then(function (response) {
 			console.log('-> network connected');
-		/*	axios(acGetSymblList)
+			axios(acGetSymblList)
 				.then(function (response) {
-					console.log(response.data.symbols);
+					console.log('Symbol list fetched');
+//					console.log(response.data.symbols);
 				})
 				.catch(function (error) {
 					console.log('--> failed to get symbol list');
-				});*/
+				});
 		})
 		.catch(function (error) {
 			console.log('-> failed to connect to network');
