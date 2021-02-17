@@ -35,6 +35,7 @@ function getSymbolList(marketName) {
 		method: 'get',
 		url: markets[marketName].url + '/api/v3/exchangeInfo'
 	};
+	console.log(acGetSymbolList);
 	axios(acGetSymbolList)
 		.then(function (response) {
 			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length(); symbolIndex++){
