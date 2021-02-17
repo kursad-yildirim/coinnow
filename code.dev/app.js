@@ -11,6 +11,8 @@ var markets = {
 if ( testConnection('binance') ){
 	console.log('.... Connected to Binance Network!');
 	getSymbolList('binance');
+} else {
+	console.log('... Failed to connect to Binance Network');
 }
 
 // FUNCTIONS
