@@ -8,12 +8,12 @@ var markets = {
 	}
 }
 
-testConnection('binance');
+// testConnection('binance');
 getSymbolList('binance');
 
 // FUNCTIONS
 function testConnection(marketName) {
-	console.log('Testing ' + marketName + ' network  conenction:');
+	console.log('Testing ' + marketName + ' network  connection:');
 	var acConTest = {
 		method: 'get',
 		url: markets[marketName].url + '/api/v3/ping'
