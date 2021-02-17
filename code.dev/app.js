@@ -8,40 +8,47 @@ var markets = {
 	}
 }
 
-if ( testConnection('binance') ){
-	console.log('.... Connected to Binance Network!');
-	getSymbolList('binance');
-} else {
-	console.log('... Failed to connect to Binance Network');
-}
+testConnection('binance');
+getSymbolList('binance');
 
 // FUNCTIONS
-function testConnection(marketName){
-    var acConTest =  {
-        method: 'get',
+function testConnection(marketName) {
+	console.log('Testing ' + marketName + ' network  conenction:');
+	var acConTest = {
+		method: 'get',
 		url: markets[marketName].url + '/api/v3/ping'
-    };
+	};
 	axios(acConTest)
-		.then(function (response){
-		    if (response.status == '200'){
-				return 1;
-			}
+		.then(function (response) {
+			console.log('-> Connection Test Succeeded!');
 		})
 		.catch(function (error) {
-			return 0;
+			console.log('-> Connection Test Failed!');
 		});
 
 }
-function getSymbolList (marketName){
+function getSymbolList(marketName) {
+	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
 		method: 'get',
 		url: markets[marketName].url + '/api/v3/exchangeInfo'
 	};
-	axios(acGetSymblList)
-		.then (function(response){
-			console.log(response.data.symbols);
+	var acConTest = {
+		method: 'get',
+		url: markets[marketName].url + '/api/v3/ping'
+	};
+	axios(acConTest)
+		.then(function (response) {
+			console.log('-> network connected');
+			axios(acGetSymblList)
+				.then(function (response) {
+					console.log(response.data.symbols);
+				})
+				.catch(function (error) {
+					console.log('--> failed to get symbol list');
+				});
 		})
-		.catch(function(error){
-			console.log(error);
+		.catch(function (error) {
+			console.log('-> failed to connect to network');
 		});
 }
