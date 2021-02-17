@@ -50,7 +50,7 @@ function getSymbolList(marketName) {
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
 		method: 'get',
-		url: marketName.url + '/api/v3/ticker/price?symbol=' + symbolName
+		url: markets[marketName].url + '/api/v3/ticker/price?symbol=' + symbolName
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
