@@ -10,6 +10,7 @@ var markets = {
 
 testConnection('binance');
 getSymbolList('binance');
+getSymbolPrice('binance', 'BNBUSDT');
 
 // FUNCTIONS
 function testConnection(marketName) {
@@ -36,9 +37,9 @@ function getSymbolList(marketName) {
 	};
 	axios(acGetSymbolList)
 		.then(function (response) {
-			console.log(response.data.symbols);
 			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length(); symbolIndex++){
-				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
+				console.log(response.data.symbols[symbolIndex].symbol);
+//				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
 			}
 		})
 		.catch(function (error) {
