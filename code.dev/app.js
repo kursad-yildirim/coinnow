@@ -8,6 +8,9 @@ var markets = {
 	}
 }
 
+testConnection(binance);
+
+// FUNCTIONS
 function testConnection(marketName){
 
         var acConTest =  {
