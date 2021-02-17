@@ -8,21 +8,38 @@ var markets = {
 	}
 }
 
-testConnection('binance');
+if ( testConnection('binance') ){
+	console.log('.... Connected to Binance Network!');
+	getSymbolList('binance');
+}
 
 // FUNCTIONS
 function testConnection(marketName){
-
-        var acConTest =  {
-                method: 'get',
-                url: markets[marketName].url
-        };
+    var acConTest =  {
+        method: 'get',
+		url: markets[marketName].url + '/api/v3/ping'
+    };
 	axios(acConTest)
 		.then(function (response){
-		        console.log(response.data);
+		    if (response.status == '200'){
+				return 1;
+			}
 		})
-                .catch(function (error) {
-                        console.log(error);
-                });
+		.catch(function (error) {
+			return 0;
+		});
 
+}
+function getSymbolList (marketName){
+	var acGetSymbolList = {
+		method: 'get',
+		url: markets[marketName].url + '/api/v3/exchangeInfo'
+	};
+	axios(acGetSymblList)
+		.then (function(response){
+			console.log(response.data.symbols);
+		})
+		.catch(function(error){
+			console.log(error);
+		});
 }
