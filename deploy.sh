@@ -1,7 +1,7 @@
 #!/bin/bash
 CONTAINER='/usr/bin/podman'
 WORKDIR='/home/workspace'
-APP="coiNNow"
+APP="coinnow"
 TAG=$1
 PORT='52380'
 
