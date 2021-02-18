@@ -23,11 +23,10 @@ function getSymbolList(marketName) {
 	};
 	axios(acGetSymbolList)
 		.then(function (response) {
-//			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length(); symbolIndex++){
-//				console.log(response.data.symbols[symbolIndex].symbol);
-//				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
-//			}
-console.log(response.data.symbols.length);
+			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length; symbolIndex++){
+				console.log(response.data.symbols[symbolIndex].symbol);
+				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
+			}
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
