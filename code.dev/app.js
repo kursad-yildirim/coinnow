@@ -27,7 +27,7 @@ function getSymbolList(marketName) {
 //				console.log(response.data.symbols[symbolIndex].symbol);
 //				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
 //			}
-console.log(response.data.symbols);
+console.log(response.data.symbols.length);
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
