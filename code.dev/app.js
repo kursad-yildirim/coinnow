@@ -6,9 +6,12 @@ var markets = {
 		apiKeyName: 'binance-api-key',
 		apiSecretName: 'binance-api-secret',
 		testUrlExtension: '/api/v3/ping',
-		symbolListUrlExtension: '/api/v3/exchangeInfo'
+		symbolListUrlExtension: '/api/v3/exchangeInfo',
+		symbolPriceUrlExtension: '/api/v3/ticker/price?symbol='
 	}
 }
+
+var symbolShortList = [];
 
 getSymbolList('binance');
 //getSymbolPrice('binance', 'BNBUSDT');
@@ -25,18 +28,16 @@ function getSymbolList(marketName) {
 		.then(function (response) {
 			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length; symbolIndex++){
 				console.log(response.data.symbols[symbolIndex].symbol);
-				getSymbolPrice(marketName, response.data.symbols[symbolIndex].symbol);
 			}
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
 		});
 }
-
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
 		method: 'get',
-		url: markets[marketName].url + '/api/v3/ticker/price?symbol=' + symbolName
+		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
@@ -46,10 +47,6 @@ function getSymbolPrice(marketName, symbolName) {
 			console.log(error);
 		});
 }
-
-
-
-
 function testConnection(marketName) {
 	console.log('Testing ' + marketName + ' network  connection:');
 	var acConTest = {
