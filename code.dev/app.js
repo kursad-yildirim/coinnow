@@ -14,8 +14,8 @@ var markets = {
 var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "XLMUSDT"];
 
 // Get Prices for my ShortList
+console.log('market: binance');
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
-	console.log('market: binance');
 	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
 }
 
