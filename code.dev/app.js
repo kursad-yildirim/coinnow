@@ -9,7 +9,7 @@ var markets = {
 }
 
 //testConnection('binance');
-getSymbolList('binance');
+//getSymbolList('binance');
 //getSymbolPrice('binance', 'BNBUSDT');
 
 // FUNCTIONS
