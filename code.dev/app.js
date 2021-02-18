@@ -11,13 +11,15 @@ var markets = {
 	}
 }
 
-var symbolShortList = [];
+var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "XLMUSDT"], ;
 
-getSymbolList('binance');
-//getSymbolPrice('binance', 'BNBUSDT');
+// Get Prices for my ShortList
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
+	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
+}
+
 
 // FUNCTIONS
-
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
