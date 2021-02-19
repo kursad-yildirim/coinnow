@@ -60,7 +60,9 @@ function getSymbolList(marketName) {
 			} else {
 				symbolArray = response.data;
 			}
-		//	console.log(symbolArray);
+			console.log(response);
+			console.log('_________________________________________________');
+			console.log(symbolArray);
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
 				if ( symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
 					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName]);
