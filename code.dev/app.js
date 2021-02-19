@@ -43,9 +43,12 @@ function getSymbolList(marketName) {
 	};
 	axios(acGetSymbolList)
 		.then(function (response) {
+/* binance
 			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length; symbolIndex++){
 				console.log(response.data.symbols[symbolIndex].symbol);
 			}
+*/
+			console.log(response.data);
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
