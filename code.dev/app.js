@@ -54,18 +54,20 @@ function getSymbolList(marketName) {
 	axios(acGetSymbolList)
 		.then(function (response) {
 			var symbolArray = [];
+			var symbolNameArray = [];
 			if ( markets[marketName].resultSymbolFormat.path != 'none'){
 				symbolArray = response.data[markets[marketName].resultSymbolFormat.path];
 			} else {
 				symbolArray = response.data;
 			}
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
-				if ( ! symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
+				if ( symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
 					symbolArray.splice(symbolIndex, 1);
+					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName]);
 //					console.log(symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName]);
 				}
 			}
-			console.log(symbolArray);
+			console.log(symbolNameArray);
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
