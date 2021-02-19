@@ -4,6 +4,7 @@ const crypto = require('crypto');
 var markets = {
 	binance: {
 		url: 'https://api.binance.com',
+		headerParams: [],
 		testUrlExtension: '/api/v3/ping',
 		symbolListUrlExtension: '/api/v3/exchangeInfo',
 		symbolPriceUrlExtension: '/api/v3/ticker/price?symbol='
