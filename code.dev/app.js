@@ -41,7 +41,7 @@ for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolInde
 	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
 }*/
 
-getSymbolList('binance');
+getSymbolList('btcturk');
 
 
 // FUNCTIONS
