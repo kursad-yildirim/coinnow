@@ -90,7 +90,6 @@ function getSymbolPrice(marketName, symbolName) {
 				method: 'GET',
 				url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
 			});
-			console.log(response.data);
 			var symbolInfo;
 			var symbolData;
 			if (markets[marketName].symbolFormat.pricePath != 'none') {
@@ -104,12 +103,11 @@ function getSymbolPrice(marketName, symbolName) {
 				symbolData = symbolInfo;
 			}
 			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
-	
-			console.log(resp.data);
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
+	sendRequest();
 /*	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
