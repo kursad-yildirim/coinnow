@@ -13,15 +13,16 @@ var markets = {
 		symbolFormat: {
 			path: 'symbols',
 			symbolPropertyName: 'symbol',
+			symbolPricePropertyName: 'price',
 			pairSeperator: ''
 		}
 	},
 	btcturk: {
 		url: 'https://api.btcturk.com',
 		headerParams: [
-			{name: 'X-PCK', value: '012e4da8-3e38-47d0-99ba-18f2f523f3e6'},
-			{name: 'X-Stamp', value: Math.floor(new Date().getTime() / 1000)},
-			{name: 'X-Signature', value: crypto.createHmac('SHA256', "gAgM7shFpPrgHVf2rvi80rrTZr0b3SR6").update('012e4da8-3e38-47d0-99ba-18f2f523f3e6' + Math.floor(new Date().getTime() / 1000)).digest('base64')}
+			{ name: 'X-PCK', value: '012e4da8-3e38-47d0-99ba-18f2f523f3e6' },
+			{ name: 'X-Stamp', value: Math.floor(new Date().getTime() / 1000) },
+			{ name: 'X-Signature', value: crypto.createHmac('SHA256', "gAgM7shFpPrgHVf2rvi80rrTZr0b3SR6").update('012e4da8-3e38-47d0-99ba-18f2f523f3e6' + Math.floor(new Date().getTime() / 1000)).digest('base64') }
 		],
 		testUrlExtension: 'none',
 		symbolListUrlExtension: '/api/v2/ticker',
@@ -29,6 +30,7 @@ var markets = {
 		symbolFormat: {
 			path: 'data',
 			symbolPropertyName: 'pair',
+			symbolPricePropertyName: 'average',
 			pairSeperator: '_'
 		}
 	}
@@ -37,11 +39,11 @@ var symbolShortList = ["BTC", "ETH", "XTZ", "LTC", "ADA", "XLM"];
 
 var myOrders = {};
 // Get Prices for my ShortList
-for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
-	getSymbolPrice('binance', getpairName(symbolShortList[mySymbolIndex],'binance'));
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+	getSymbolPrice('binance', getpairName(symbolShortList[mySymbolIndex], 'binance'));
 }
-for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
-	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex],'btcturk'));
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex], 'btcturk'));
 }
 
 //getSymbolList('binance');
@@ -58,13 +60,13 @@ function getSymbolList(marketName) {
 		.then(function (response) {
 			var symbolArray = [];
 			var symbolNameArray = [];
-			if ( markets[marketName].symbolFormat.path != 'none'){
+			if (markets[marketName].symbolFormat.path != 'none') {
 				symbolArray = response.data[markets[marketName].symbolFormat.path];
 			} else {
 				symbolArray = response.data;
 			}
-			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
-				if ( symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName].includes(tradingCurrency)){
+			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++) {
+				if (symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName].includes(tradingCurrency)) {
 					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName]);
 				}
 			}
@@ -82,8 +84,14 @@ function getSymbolPrice(marketName, symbolName) {
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
-	//		console.log( marketName + '->' + response.data.symbol + ': ' + response.data.price);
-	console.log(response.data);
+			var symbolInfo;
+			if (markets[marketName].symbolFormat.path != 'none') {
+				symbolInfo = response.data[markets[marketName].symbolFormat.path];
+			} else {
+				symbolInfo = response.data;
+			}
+			console.log( marketName + '->' + symbolInfo[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName]);
+			console.log(response.data);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -104,13 +112,13 @@ function testConnection(marketName) {
 		});
 
 }
-function prepareHeader (marketName){
+function prepareHeader(marketName) {
 	var headers = {};
-	for (var headerIndex = 0; headerIndex < markets[marketName].headerParams.length;headerIndex++){
+	for (var headerIndex = 0; headerIndex < markets[marketName].headerParams.length; headerIndex++) {
 		headers[markets[marketName].headerParams[headerIndex].name] = markets[marketName].headerParams[headerIndex].value;
 	}
 	return headers;
 }
-function getpairName (symbolName, marketName){
+function getpairName(symbolName, marketName) {
 	return symbolName + markets[marketName].symbolFormat.pairSeperator + tradingCurrency;
 }
