@@ -95,7 +95,7 @@ function getSymbolPrice(marketName, symbolName) {
 			} else {
 				symbolInfo = response.data;
 			}
-			if (symbolInfo.isArray()) {
+			if (Array.isArray(symbolInfo)) {
 				symbolData = symbolInfo[0];
 			} else {
 				symbolData = symbolInfo;
