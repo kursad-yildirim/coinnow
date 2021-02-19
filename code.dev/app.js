@@ -82,7 +82,8 @@ function getSymbolPrice(marketName, symbolName) {
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
-			console.log( marketName + '->' + response.data.symbol + ': ' + response.data.price);
+	//		console.log( marketName + '->' + response.data.symbol + ': ' + response.data.price);
+	console.log(response.data);
 		})
 		.catch(function (error) {
 			console.log(error);
