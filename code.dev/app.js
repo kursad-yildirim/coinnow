@@ -42,7 +42,7 @@ var symbolShortList = ["BTC", "ETH", "XTZ", "LTC", "ADA", "XLM"];
 var myOrders = {};
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
-	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex], 'binance'));
+	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex], 'btcturk'));
 }
 
 //getSymbolList('binance');
