@@ -41,10 +41,10 @@ var myOrders = {};
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	getSymbolPrice('binance', getpairName(symbolShortList[mySymbolIndex], 'binance'));
-}
+}/*
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex], 'btcturk'));
-}
+}*/
 
 //getSymbolList('binance');
 
