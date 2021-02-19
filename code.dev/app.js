@@ -90,7 +90,7 @@ function getSymbolPrice(marketName, symbolName) {
 			} else {
 				symbolInfo = response.data;
 			}
-			console.log(symbolInfo);
+			console.log(response.data);
 			//console.log( marketName + '->' + symbolInfo[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
