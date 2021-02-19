@@ -7,6 +7,6 @@
 	},
 	"dependencies": {
 		"axios": "0.21.1",
-		"crypto": "4.0.0."
+		"crypto-js": "4.0.0."
 	}
 }
