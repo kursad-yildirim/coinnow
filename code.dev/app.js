@@ -40,6 +40,9 @@ var myOrders = {};
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
 	getSymbolPrice('binance', getpairName(symbolShortList[mySymbolIndex],'binance'));
 }
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
+	getSymbolPrice('btcturk', getpairName(symbolShortList[mySymbolIndex],'btcturk'));
+}
 
 //getSymbolList('binance');
 
@@ -79,7 +82,7 @@ function getSymbolPrice(marketName, symbolName) {
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
-			console.log( response.data.symbol + ': ' + response.data.price);
+			console.log( marketName + '->' + response.data.symbol + ': ' + response.data.price);
 		})
 		.catch(function (error) {
 			console.log(error);
