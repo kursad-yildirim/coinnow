@@ -93,6 +93,7 @@ function getSymbolPrice(marketName, symbolName) {
 				method: 'GET',
 				url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
 			});
+			console.log(response);
 			var symbolInfo;
 			var symbolData;
 			if (markets[marketName].symbolFormat.pricePath != 'none') {
