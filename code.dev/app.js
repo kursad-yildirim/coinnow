@@ -31,7 +31,8 @@ for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolInde
 	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
 }*/
 
-getSymbolList('btcturk');
+console.log(prepareHeader('btcturk'));
+//getSymbolList('btcturk');
 
 
 // FUNCTIONS
@@ -78,4 +79,11 @@ function testConnection(marketName) {
 			console.log('-> Connection Test Failed!');
 		});
 
+}
+function prepareHeader (marketName){
+	var headers = {};
+	for (var headerIndex = 0; headerIndex < markets[marketName].headerParams.length;headerIndex++){
+		headers[markets[marketName].headerParams[headerIndex].name] = markets[marketName].headerParams[headerIndex].value;
+	}
+	return headers;
 }
