@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios').default;
 const crypto = require('crypto');
 
 const tradingCurrency = 'USDT'
@@ -50,10 +50,6 @@ for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolInde
 	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
 }
 
-// BUSINESS FUNCTIONS
-function fetchMarketPrices(){
-
-}
 // BASIC FUNCTIONS
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
