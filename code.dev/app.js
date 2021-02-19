@@ -20,7 +20,6 @@ var markets = {
 		symbolPriceUrlExtension: '/api/v2/ticker?pairSymbol=BTC_USDT'
 	}
 }
-console.log(markets.btcturk);
 var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "XLMUSDT"];
 
 var myOrders = {};
@@ -31,7 +30,7 @@ for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolInde
 	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
 }*/
 
-console.log(prepareHeader('btcturk'));
+console.log(prepareHeader('binance'));
 //getSymbolList('btcturk');
 
 
