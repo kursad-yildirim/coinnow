@@ -83,7 +83,6 @@ function getSymbolPrice(marketName, symbolName) {
 		method: 'get',
 		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
 	};
-	console.log('getting ' + symbolName + ' price from ' + marketName);
 	const sendRequest = async () => {
 		try {
 			const response = await axios({
