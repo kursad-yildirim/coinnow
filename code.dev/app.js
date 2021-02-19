@@ -10,9 +10,10 @@ var markets = {
 		testUrlExtension: '/api/v3/ping',
 		symbolListUrlExtension: '/api/v3/exchangeInfo',
 		symbolPriceUrlExtension: '/api/v3/ticker/price?symbol=',
-		resultSymbolFormat: {
+		symbolFormat: {
 			path: 'symbols',
 			symbolPropertyName: 'symbol',
+			pairSeperator: ''
 		}
 	},
 	btcturk: {
@@ -25,23 +26,22 @@ var markets = {
 		testUrlExtension: 'none',
 		symbolListUrlExtension: '/api/v2/ticker',
 		symbolPriceUrlExtension: '/api/v2/ticker?pairSymbol=',
-		resultSymbolFormat: {
+		symbolFormat: {
 			path: 'data',
 			symbolPropertyName: 'pair',
+			pairSeperator: '_'
 		}
 	}
 }
-var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "XLMUSDT"];
+var symbolShortList = ["BTC", "ETH", "XTZ", "LTC", "ADA", "XLM"];
 
 var myOrders = {};
-/*
-// Get Prices for my ShortList: Binance
-console.log('market: binance');
+// Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++){
-	getSymbolPrice('binance', symbolShortList[mySymbolIndex]);
-}*/
+	getSymbolPrice('binance', getpairName(symbolShortList[mySymbolIndex],'binance'));
+}
 
-getSymbolList('binance');
+//getSymbolList('binance');
 
 
 // FUNCTIONS
@@ -55,15 +55,14 @@ function getSymbolList(marketName) {
 		.then(function (response) {
 			var symbolArray = [];
 			var symbolNameArray = [];
-			if ( markets[marketName].resultSymbolFormat.path != 'none'){
-				symbolArray = response.data[markets[marketName].resultSymbolFormat.path];
+			if ( markets[marketName].symbolFormat.path != 'none'){
+				symbolArray = response.data[markets[marketName].symbolFormat.path];
 			} else {
 				symbolArray = response.data;
 			}
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
-				if ( symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
-					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName]);
-//					console.log(symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName]);
+				if ( symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName].includes(tradingCurrency)){
+					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName]);
 				}
 			}
 			console.log(symbolNameArray);
@@ -107,4 +106,7 @@ function prepareHeader (marketName){
 		headers[markets[marketName].headerParams[headerIndex].name] = markets[marketName].headerParams[headerIndex].value;
 	}
 	return headers;
+}
+function getpairName (symbolName, marketName){
+	return symbolName + markets[marketName].symbolFormat.pairSeperator + tradingCurrency;
 }
