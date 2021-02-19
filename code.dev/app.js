@@ -54,13 +54,13 @@ function getSymbolList(marketName) {
 	axios(acGetSymbolList)
 		.then(function (response) {
 			var symbolArray = [];
-			if ( markets.marketName.resultSymbolFormat.path != 'none'){
-				symbolArray = results.data[markets.marketName.resultSymbolFormat.path];
+			if ( markets[marketName].resultSymbolFormat.path != 'none'){
+				symbolArray = results.data[markets[marketName].resultSymbolFormat.path];
 			} else {
 				symbolArray = results.data;
 			}
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
-				if ( ! symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName].includes('USDT')){
+				if ( ! symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
 					symbolArray.splice(symbolIndex, 1);
 //					console.log(symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName]);
 				}
