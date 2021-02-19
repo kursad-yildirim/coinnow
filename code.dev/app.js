@@ -87,7 +87,32 @@ function getSymbolPrice(marketName, symbolName) {
 		method: 'get',
 		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
 	};
-	axios(acGetSymbolPrice)
+	const sendRequest = async () => {
+		try {
+			const response = await axios({
+				method: 'GET',
+				url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
+			});
+			var symbolInfo;
+			var symbolData;
+			if (markets[marketName].symbolFormat.pricePath != 'none') {
+				symbolInfo = response.data[markets[marketName].symbolFormat.path];
+			} else {
+				symbolInfo = response.data;
+			}
+			if (Array.isArray(symbolInfo)) {
+				symbolData = symbolInfo[0];
+			} else {
+				symbolData = symbolInfo;
+			}
+			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
+	
+			console.log(resp.data);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+/*	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
 			var symbolData;
@@ -105,7 +130,7 @@ function getSymbolPrice(marketName, symbolName) {
 		})
 		.catch(function (error) {
 			console.log(error);
-		});
+		});*/
 }
 function testConnection(marketName) {
 	console.log('Testing ' + marketName + ' network  connection:');
