@@ -13,6 +13,7 @@ var markets = {
 		symbolFormat: {
 			path: 'symbols',
 			symbolPropertyName: 'symbol',
+			pricePath: 'none',
 			symbolPricePropertyName: 'price',
 			pairSeperator: ''
 		}
@@ -30,6 +31,7 @@ var markets = {
 		symbolFormat: {
 			path: 'data',
 			symbolPropertyName: 'pair',
+			pricePath: 'data',
 			symbolPricePropertyName: 'average',
 			pairSeperator: '_'
 		}
@@ -82,12 +84,12 @@ function getSymbolPrice(marketName, symbolName) {
 	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
-			if (markets[marketName].symbolFormat.path != 'none') {
+			if (markets[marketName].symbolFormat.pricePath != 'none') {
 				symbolInfo = response.data[markets[marketName].symbolFormat.path];
 			} else {
 				symbolInfo = response.data;
 			}
-			console.log(response.data);
+			console.log(symbolInfo);
 			//console.log( marketName + '->' + symbolInfo[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
