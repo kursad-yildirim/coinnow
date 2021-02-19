@@ -25,7 +25,7 @@ var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "X
 
 var myOrders = {
 
-}
+};
 /*
 // Get Prices for my ShortList: Binance
 console.log('market: binance');
