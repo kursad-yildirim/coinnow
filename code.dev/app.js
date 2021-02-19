@@ -45,6 +45,10 @@ var marketName = 'binance';
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
 }
+marketName = 'btcturk';
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
+}
 
 //getSymbolList('binance');
 
@@ -85,13 +89,18 @@ function getSymbolPrice(marketName, symbolName) {
 	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
+			var symbolData;
 			if (markets[marketName].symbolFormat.pricePath != 'none') {
 				symbolInfo = response.data[markets[marketName].symbolFormat.path];
 			} else {
 				symbolInfo = response.data;
 			}
-			console.log(typeof symbolInfo);
-			//console.log( marketName + '->' + symbolInfo[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName]);
+			if (symbolInfo.isArray()) {
+				symbolData = symbolInfo[0];
+			} else {
+				symbolData = symbolInfo;
+			}
+			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
 			console.log(error);
