@@ -55,9 +55,9 @@ function getSymbolList(marketName) {
 		.then(function (response) {
 			var symbolArray = [];
 			if ( markets[marketName].resultSymbolFormat.path != 'none'){
-				symbolArray = results.data[markets[marketName].resultSymbolFormat.path];
+				symbolArray = response.data[markets[marketName].resultSymbolFormat.path];
 			} else {
-				symbolArray = results.data;
+				symbolArray = response.data;
 			}
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
 				if ( ! symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
