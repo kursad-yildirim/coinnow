@@ -1,13 +1,19 @@
 const axios = require('axios');
 const crypto = require('crypto');
 
+const tradingCurrency = 'USDT'
+
 var markets = {
 	binance: {
 		url: 'https://api.binance.com',
 		headerParams: [],
 		testUrlExtension: '/api/v3/ping',
 		symbolListUrlExtension: '/api/v3/exchangeInfo',
-		symbolPriceUrlExtension: '/api/v3/ticker/price?symbol='
+		symbolPriceUrlExtension: '/api/v3/ticker/price?symbol=',
+		resultSymbolFormat: {
+			path: 'symbols',
+			symbolPropertyName: 'symbol',
+		}
 	},
 	btcturk: {
 		url: 'https://api.btcturk.com',
@@ -18,7 +24,11 @@ var markets = {
 		],
 		testUrlExtension: 'none',
 		symbolListUrlExtension: '/api/v2/ticker',
-		symbolPriceUrlExtension: '/api/v2/ticker?pairSymbol=BTC_USDT'
+		symbolPriceUrlExtension: '/api/v2/ticker?pairSymbol=',
+		resultSymbolFormat: {
+			path: 'none',
+			symbolPropertyName: 'pair',
+		}
 	}
 }
 var symbolShortList = ["BTCUSDT", "ETHUSDT", "XTZUSDT", "LTCUSDT", "ADAUSDT", "XLMUSDT"];
@@ -43,12 +53,19 @@ function getSymbolList(marketName) {
 	};
 	axios(acGetSymbolList)
 		.then(function (response) {
-/* binance
-			for (var symbolIndex = 0; symbolIndex < response.data.symbols.length; symbolIndex++){
-				console.log(response.data.symbols[symbolIndex].symbol);
+			var symbolArray = [];
+			if ( markets.marketName.resultSymbolFormat.path != 'none'){
+				symbolArray = results.data[markets.marketName.resultSymbolFormat.path];
+			} else {
+				symbolArray = results.data;
 			}
-*/
-			console.log(response.data);
+			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
+				if ( ! symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName].includes('USDT')){
+					symbolArray.splice(symbolIndex, 1);
+//					console.log(symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName]);
+				}
+			}
+			console.log(symbolArray);
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
