@@ -49,6 +49,7 @@ function getSymbolList(marketName) {
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
+			console.log(error);
 		});
 }
 function getSymbolPrice(marketName, symbolName) {
