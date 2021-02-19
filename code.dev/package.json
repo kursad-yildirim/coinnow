@@ -1,6 +1,6 @@
 {
-	"name": "tripko-battle",
-	"version": "0.0.1",
+	"name": "coinnow",
+	"version": "1.0",
 	"private": true,
 	"scripts": {
 		"start": "node ./app.js"
