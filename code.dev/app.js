@@ -107,6 +107,7 @@ function getSymbolPrice(marketName, symbolName) {
 		}
 	};
 	sendRequest();
+	
 /*	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
