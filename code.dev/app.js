@@ -60,14 +60,14 @@ function getSymbolList(marketName) {
 			} else {
 				symbolArray = response.data;
 			}
-			console.log(symbolArray);
+		//	console.log(symbolArray);
 			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++){
 				if ( symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName].includes('USDT')){
 					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].resultSymbolFormat.symbolPropertyName]);
 //					console.log(symbolArray[symbolIndex][markets.marketName.resultSymbolFormat.symbolPropertyName]);
 				}
 			}
-			console.log(symbolNameArray);
+	//		console.log(symbolNameArray);
 		})
 		.catch(function (error) {
 			console.log('--> failed to get symbol list');
