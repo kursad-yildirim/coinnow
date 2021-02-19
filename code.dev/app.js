@@ -36,24 +36,25 @@ var markets = {
 			pairSeperator: '_'
 		}
 	}
-}
-var symbolShortList = ["BTC", "ETH", "XTZ", "LTC", "ADA", "XLM"];
+};
+var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
+var marketShortList = ['binance', 'btcturk'];
 
 var myOrders = {};
 // Get Prices for my ShortList
-var marketName = 'binance';
+var marketName;
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+	marketName = 'binance';
+	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
+	marketName = 'btcturk';
 	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
 }
-marketName = 'btcturk';
-for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
-	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
+
+// BUSINESS FUNCTIONS
+function fetchMarketPrices(){
+
 }
-
-//getSymbolList('binance');
-
-
-// FUNCTIONS
+// BASIC FUNCTIONS
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
