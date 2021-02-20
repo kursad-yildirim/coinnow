@@ -1,11 +1,12 @@
 {
-	"name": "coinnow",
-	"version": "0.1.0",
-	"private": true,
-		"scripts": {
-		"start": "node ./app.js"
-	},
-	"dependencies": {
-		"axios": "0.21.1"
-	}
+    "name": "coinnow",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./app.js"
+    },
+    "dependencies": {
+        "axios": "0.21.1",
+        "mongoose": "5.11.7"
+    }
 }
