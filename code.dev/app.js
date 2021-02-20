@@ -1,7 +1,9 @@
 const axios = require('axios').default;
 const crypto = require('crypto');
+var coinNowDb = require('./modules/mongodb.util');
 
-const tradingCurrency = 'USDT'
+const tradingCurrency = 'USDT';
+coinNowDb.init();
 
 var markets = {
 	binance: {
@@ -37,11 +39,8 @@ var markets = {
 		}
 	}
 };
-//var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
-var symbolShortList = ['BTC', 'ETH'];
+var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
-// MongoDB
-console.log('MongoDB IP is: ' + process.env.COINNOW_DB_IP);
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
