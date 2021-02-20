@@ -48,8 +48,6 @@ var arbitrageList = ['XTZ'];
 		getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex]);
 	}
 }*/
-// Check Arbitrage
-setInterval(checkArbitrage(), 1000);
 // MONGO DB FUNCTIONS
 function mongoFind(searchToken) {
 	coinNowDb[appName].find(searchToken).then(success).catch(failure);
@@ -125,6 +123,8 @@ function checkArbitrage() {
 		}
 	}
 }
+// Check Arbitrage
+setInterval(checkArbitrage(), 1000);
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
