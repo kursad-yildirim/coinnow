@@ -37,17 +37,16 @@ var markets = {
 		}
 	}
 };
-var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
+//var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
+var symbolShortList = ['BTC'];
 var marketShortList = ['binance', 'btcturk'];
 
 var myOrders = {};
 // Get Prices for my ShortList
-var marketName;
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
-	marketName = 'binance';
-	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
-	marketName = 'btcturk';
-	getSymbolPrice(marketName, getpairName(symbolShortList[mySymbolIndex], marketName));
+	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length;myMarketIndex++){
+		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketName));
+	}
 }
 
 // BASIC FUNCTIONS
@@ -79,10 +78,6 @@ function getSymbolList(marketName) {
 		});
 }
 function getSymbolPrice(marketName, symbolName) {
-	var acGetSymbolPrice = {
-		method: 'get',
-		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
-	};
 	const sendRequest = async () => {
 		try {
 			const response = await axios({
@@ -107,8 +102,14 @@ function getSymbolPrice(marketName, symbolName) {
 		}
 	};
 	sendRequest();
+
 	
-/*	axios(acGetSymbolPrice)
+/*
+	var acGetSymbolPrice = {
+		method: 'get',
+		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
+	};
+	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
 			var symbolData;
