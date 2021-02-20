@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const crypto = require('crypto');
-var coinNowDb = require('./modules/mongodb.util');
-
+const coinNowDb = require('./modules/mongodb.util');
+const appName = 'coinnow';
 const tradingCurrency = 'USDT';
 coinNowDb.init();
 
@@ -47,7 +47,47 @@ for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolInde
 		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
 	}
 }
-
+// MONGO DB FUCNTIONS
+function mongoFind(searchToken){
+	coinNowDb[appName].find(searchToken).then(success).catch(failure);
+	function success(data){
+                if (data.length == 0){
+                        console.log([{name: 'Coin not found'}]);
+                } else {
+                        console.log(data);
+                }
+	}
+	function failure(error){
+		console.log([{operationName: 'find', operationStatus: 'CoinNow-Error-101'}]);
+	}
+}
+function mongoCreate (data){
+	coinNowDb[appName].create(data).then(success).catch(failure);
+	function success(data){
+			console.log({operationName: 'create', operationStatus: 'ok'});
+	}
+	function failure(error){
+			console.log({operationName: 'create', operationStatus: 'CoinNow-Error-101'});
+	}
+}
+function mongoUpdate (data){
+	coinNowDb[appName].findOneAndUpdate({name:data.coinName }, data,{new: true, upsert:true}).then(success).catch(failure);
+	function success(data){
+			console.log({operationName: 'update', operationStatus: 'ok'});
+	}
+	function failure(error){
+			console.log({operationName: 'update', operationStatus: 'CoinNow-Error-101'});
+	}
+}
+function mongoUpdate (data){
+	coinNowDb[appName].deleteMany(data).then(success).catch(failure);
+	function success(data){
+			console.log({operationName: 'delete', operationStatus: 'ok'});
+	}
+	function failure(error){
+			console.log({operationName: 'delete', operationStatus: 'CoinNow-Error-101'});
+	}
+}
 // BASIC FUNCTIONS
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
@@ -95,7 +135,9 @@ function getSymbolPrice(marketName, symbolName) {
 			} else {
 				symbolData = symbolInfo;
 			}
-			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
+		//	mongoUpdate({coinName: symbolName, marketName: symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]});
+			console.log({coinName: symbolName, marketName: symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]});
+//			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
 			console.log(error);
