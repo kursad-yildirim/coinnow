@@ -44,7 +44,7 @@ var marketShortList = ['binance', 'btcturk'];
 var myOrders = {};
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
-	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length;myMarketIndex++){
+	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
 		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
 	}
 }
@@ -77,58 +77,29 @@ function getSymbolList(marketName) {
 			console.log(error);
 		});
 }
-function getSymbolPrice(marketName, symbolName) {
-	const sendRequest = async () => {
-	//	try {
-			const response = await axios({
-				method: 'GET',
-				url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
-			});
-			var symbolInfo;
-			var symbolData;
-			if (markets[marketName].symbolFormat.pricePath != 'none') {
-				symbolInfo = response.data[markets[marketName].symbolFormat.path];
-			} else {
-				symbolInfo = response.data;
-			}
-			if (Array.isArray(symbolInfo)) {
-				symbolData = symbolInfo[0];
-			} else {
-				symbolData = symbolInfo;
-			}
-			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
-//		} catch (error) {
-//			console.error(error);
-//		}
-	};
-	sendRequest();
-
-	
-/*
-	var acGetSymbolPrice = {
-		method: 'get',
-		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
-	};
-	axios(acGetSymbolPrice)
-		.then(function (response) {
-			var symbolInfo;
-			var symbolData;
-			if (markets[marketName].symbolFormat.pricePath != 'none') {
-				symbolInfo = response.data[markets[marketName].symbolFormat.path];
-			} else {
-				symbolInfo = response.data;
-			}
-			if (Array.isArray(symbolInfo)) {
-				symbolData = symbolInfo[0];
-			} else {
-				symbolData = symbolInfo;
-			}
-			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});*/
-}
+const getSymbolPrice = async (marketName, symbolName) => {
+	try {
+		const response = await axios({
+			method: 'GET',
+			url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
+		});
+		var symbolInfo;
+		var symbolData;
+		if (markets[marketName].symbolFormat.pricePath != 'none') {
+			symbolInfo = response.data[markets[marketName].symbolFormat.path];
+		} else {
+			symbolInfo = response.data;
+		}
+		if (Array.isArray(symbolInfo)) {
+			symbolData = symbolInfo[0];
+		} else {
+			symbolData = symbolInfo;
+		}
+		console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
+	} catch (error) {
+		console.error(error);
+	}
+};
 function testConnection(marketName) {
 	console.log('Testing ' + marketName + ' network  connection:');
 	var acConTest = {
