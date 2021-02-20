@@ -119,7 +119,7 @@ function getSymbolList(marketName) {
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
 		method: 'get',
-		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + getpairName(symbolShortList[mySymbolIndex])
+		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + getpairName(symbolName)
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
