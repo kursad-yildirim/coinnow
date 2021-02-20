@@ -69,7 +69,7 @@ function getSymbolList(marketName) {
 		});
 }
 const getSymbolPrice = async (marketName, symbolName) => {
-	try {
+//	try {
 		const response = await axios({
 			method: 'GET',
 			url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
@@ -87,9 +87,9 @@ const getSymbolPrice = async (marketName, symbolName) => {
 			symbolData = symbolInfo;
 		}
 		console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
-	} catch (error) {
-		console.error(error);
-	}
+//	} catch (error) {
+//		console.error(error);
+//	}
 };
 function testConnection(marketName) {
 	console.log('Testing ' + marketName + ' network  connection:');
