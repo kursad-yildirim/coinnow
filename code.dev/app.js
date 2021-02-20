@@ -79,7 +79,7 @@ function mongoUpdate (data){
 			console.log({operationName: 'update', operationStatus: 'CoinNow-Error-101'});
 	}
 }
-function mongoUpdate (data){
+function mongoDelete (data){
 	coinNowDb[appName].deleteMany(data).then(success).catch(failure);
 	function success(data){
 			console.log({operationName: 'delete', operationStatus: 'ok'});
