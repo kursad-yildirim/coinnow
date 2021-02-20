@@ -44,7 +44,7 @@ var marketShortList = ['binance', 'btcturk'];
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
+		getSymbolPrice(marketShortList[myMarketIndex], symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
 	}
 }
 // MONGO DB FUCNTIONS
@@ -119,12 +119,15 @@ function getSymbolList(marketName) {
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
 		method: 'get',
-		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
+		url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + getpairName(symbolShortList[mySymbolIndex]
 	};
 	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
-			var symbolData = { coinName: symbolName};
+			var symbolData = {
+				coinName: symbolName,
+				tradingCurrency: tradingCurrency
+			};
 			if (markets[marketName].symbolFormat.pricePath != 'none') {
 				symbolInfo = response.data[markets[marketName].symbolFormat.path];
 			} else {
