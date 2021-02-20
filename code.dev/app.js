@@ -1,8 +1,7 @@
 const axios = require('axios').default;
 const crypto = require('crypto');
-
 const tradingCurrency = 'USDT'
-
+// ENVIRONMENT
 var markets = {
 	binance: {
 		url: 'https://api.binance.com',
@@ -40,14 +39,6 @@ var markets = {
 //var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var symbolShortList = ['BTC', 'ETH'];
 var marketShortList = ['binance', 'btcturk'];
-
-var myOrders = {};
-// Get Prices for my ShortList
-for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
-	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
-	}
-}
 
 // BASIC FUNCTIONS
 function getSymbolList(marketName) {
@@ -125,3 +116,11 @@ function prepareHeader(marketName) {
 function getpairName(symbolName, marketName) {
 	return symbolName + markets[marketName].symbolFormat.pairSeperator + tradingCurrency;
 }
+
+// Get Prices for my ShortList
+for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
+		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
+	}
+}
+
