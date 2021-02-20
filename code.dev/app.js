@@ -138,7 +138,7 @@ function getSymbolPrice(marketName, symbolName) {
 			} else {
 				symbolData[marketName] = symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName];
 			}
-		//	mongoUpdate({coinName: symbolName, marketName: symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]});
+			mongoUpdate(symbolData);
 			console.log(symbolData);
 //			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
