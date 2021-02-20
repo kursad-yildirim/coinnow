@@ -79,7 +79,7 @@ function getSymbolList(marketName) {
 }
 function getSymbolPrice(marketName, symbolName) {
 	const sendRequest = async () => {
-		try {
+	//	try {
 			const response = await axios({
 				method: 'GET',
 				url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + symbolName
@@ -97,9 +97,9 @@ function getSymbolPrice(marketName, symbolName) {
 				symbolData = symbolInfo;
 			}
 			console.log( marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
-		} catch (error) {
-			console.error(error);
-		}
+//		} catch (error) {
+//			console.error(error);
+//		}
 	};
 	sendRequest();
 
