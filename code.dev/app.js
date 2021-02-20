@@ -124,19 +124,19 @@ function getSymbolPrice(marketName, symbolName) {
 	axios(acGetSymbolPrice)
 		.then(function (response) {
 			var symbolInfo;
-			var symbolData;
+			var symbolData = { coinName: symbolName};
 			if (markets[marketName].symbolFormat.pricePath != 'none') {
 				symbolInfo = response.data[markets[marketName].symbolFormat.path];
 			} else {
 				symbolInfo = response.data;
 			}
 			if (Array.isArray(symbolInfo)) {
-				symbolData = symbolInfo[0];
+				symbolData[marketName] = symbolInfo[0][markets[marketName].symbolFormat.symbolPricePropertyName];
 			} else {
-				symbolData = symbolInfo;
+				symbolData[marketName] = symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName];
 			}
 		//	mongoUpdate({coinName: symbolName, marketName: symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]});
-			console.log({coinName: symbolName, marketName: symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]});
+			console.log(symbolData);
 //			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
