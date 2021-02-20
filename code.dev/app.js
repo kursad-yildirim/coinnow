@@ -45,7 +45,7 @@ var myOrders = {};
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length;myMarketIndex++){
-		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketName));
+		getSymbolPrice(marketShortList[myMarketIndex], getpairName(symbolShortList[mySymbolIndex], marketShortList[myMarketIndex]));
 	}
 }
 
