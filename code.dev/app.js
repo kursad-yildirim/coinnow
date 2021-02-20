@@ -43,11 +43,13 @@ var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
 var arbitrageList = ['XTZ'];
 // Get Prices for my ShortList
-for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
+/*for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
 		getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex]);
 	}
-}
+}*/
+// Check Arbitrage
+setInterval(checkArbitrage(), 1000);
 // MONGO DB FUNCTIONS
 function mongoFind(searchToken) {
 	coinNowDb[appName].find(searchToken).then(success).catch(failure);
