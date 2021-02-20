@@ -11,7 +11,7 @@
 	function init(){
 		var options = {
             useNewUrlParser: true,
-            useUnifiedTopology: true}
+            useUnifiedTopology: true
 		}
 		var connectionString = 'mongodb://' + coinNowDBConfig.server + '/' + coinNowDBConfig.database;
 		mongoose.connect(connectionString,options)
