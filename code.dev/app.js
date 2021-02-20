@@ -41,54 +41,88 @@ var markets = {
 };
 var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
+var arbitrageList = ['XTZ'];
 // Get Prices for my ShortList
-for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
+for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-		getSymbolPrice(marketShortList[myMarketIndex], symbolShortList[mySymbolIndex]);
+		getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex]);
 	}
 }
-// MONGO DB FUCNTIONS
-function mongoFind(searchToken){
+// MONGO DB FUNCTIONS
+function mongoFind(searchToken) {
 	coinNowDb[appName].find(searchToken).then(success).catch(failure);
-	function success(data){
-                if (data.length == 0){
-                        console.log([{name: 'Coin not found'}]);
-                } else {
-                        console.log(data);
-                }
+	function success(data) {
+		if (data.length == 0) {
+			console.log([{ name: 'Coin not found' }]);
+		} else {
+			console.log(data);
+		}
 	}
-	function failure(error){
-		console.log([{operationName: 'find', operationStatus: 'CoinNow-Error-101'}]);
+	function failure(error) {
+		console.log([{ operationName: 'find', operationStatus: 'CoinNow-Error-101' }]);
 	}
 }
-function mongoCreate (data){
+function mongoCreate(data) {
 	coinNowDb[appName].create(data).then(success).catch(failure);
-	function success(data){
-			console.log({operationName: 'create', operationStatus: 'ok'});
+	function success(data) {
+		console.log({ operationName: 'create', operationStatus: 'ok' });
 	}
-	function failure(error){
-			console.log({operationName: 'create', operationStatus: 'CoinNow-Error-101'});
-	}
-}
-function mongoUpdate (data){
-	coinNowDb[appName].findOneAndUpdate({name:data.coinName }, data,{new: true, upsert:true}).then(success).catch(failure);
-	function success(data){
-			console.log({operationName: 'update', operationStatus: 'ok'});
-	}
-	function failure(error){
-			console.log({operationName: 'update', operationStatus: 'CoinNow-Error-101'});
+	function failure(error) {
+		console.log({ operationName: 'create', operationStatus: 'CoinNow-Error-101' });
 	}
 }
-function mongoDelete (data){
+function mongoUpdate(data) {
+	coinNowDb[appName].findOneAndUpdate({ name: data.coinName }, data, { new: true, upsert: true }).then(success).catch(failure);
+	function success(data) {
+		console.log({ operationName: 'update', operationStatus: 'ok' });
+	}
+	function failure(error) {
+		console.log({ operationName: 'update', operationStatus: 'CoinNow-Error-101' });
+	}
+}
+function mongoDelete(data) {
 	coinNowDb[appName].deleteMany(data).then(success).catch(failure);
-	function success(data){
-			console.log({operationName: 'delete', operationStatus: 'ok'});
+	function success(data) {
+		console.log({ operationName: 'delete', operationStatus: 'ok' });
 	}
-	function failure(error){
-			console.log({operationName: 'delete', operationStatus: 'CoinNow-Error-101'});
+	function failure(error) {
+		console.log({ operationName: 'delete', operationStatus: 'CoinNow-Error-101' });
 	}
 }
 // BASIC FUNCTIONS
+function checkArbitrage() {
+	var acGetSymbolPrice = {};
+	var symbolInfo;
+	var symbolData = {
+		coinName: arbitrageList[mySymbolIndex],
+		tradingCurrency: tradingCurrency
+	};
+	for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
+		for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
+			acGetSymbolPrice = {
+				method: 'get',
+				url: markets[marketShortList[myMarketIndex]].url + markets[marketShortList[myMarketIndex]].symbolPriceUrlExtension + getpairName(arbitrageList[mySymbolIndex], marketShortList[myMarketIndex])
+			};
+			axios(acGetSymbolPrice)
+				.then(function (response) {
+					if (markets[marketShortList[myMarketIndex]].symbolFormat.pricePath != 'none') {
+						symbolInfo = response.data[markets[marketShortList[myMarketIndex]].symbolFormat.path];
+					} else {
+						symbolInfo = response.data;
+					}
+					if (Array.isArray(symbolInfo)) {
+						symbolData[marketShortList[myMarketIndex]] = symbolInfo[0][markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName];
+					} else {
+						symbolData[marketShortList[myMarketIndex]] = symbolInfo[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName];
+					}
+					console.log(marketShortList[myMarketIndex] + '->' + symbolData[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName]);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+	}
+}
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
@@ -138,9 +172,9 @@ function getSymbolPrice(marketName, symbolName) {
 			} else {
 				symbolData[marketName] = symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName];
 			}
-			mongoUpdate(symbolData);
+			//	mongoUpdate(symbolData);
 			console.log(symbolData);
-//			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
+			//			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
 			console.log(error);
