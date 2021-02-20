@@ -38,7 +38,7 @@ var markets = {
 	}
 };
 //var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
-var symbolShortList = ['BTC'];
+var symbolShortList = ['BTC', 'ETH'];
 var marketShortList = ['binance', 'btcturk'];
 
 var myOrders = {};
