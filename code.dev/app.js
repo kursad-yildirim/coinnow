@@ -40,8 +40,8 @@ var markets = {
 //var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var symbolShortList = ['BTC', 'ETH'];
 var marketShortList = ['binance', 'btcturk'];
-
-var myOrders = {};
+// MongoDB
+console.log('MongoDB IP is: ' + process.env.COINNOW_DB_IP);
 // Get Prices for my ShortList
 for (var mySymbolIndex = 0; mySymbolIndex < symbolShortList.length; mySymbolIndex++) {
 	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
