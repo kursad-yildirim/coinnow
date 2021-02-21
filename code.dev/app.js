@@ -99,8 +99,12 @@ function checkArbitrage() {
 		coinName: arbitrageList[mySymbolIndex],
 		tradingCurrency: tradingCurrency
 	};
-	for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
-		for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
+	var myMarketIndex;
+	var mySymbolIndex;
+	for (mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
+		for (myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
+			console.log('>>>> mySymbolIndex: ' + mySymbolIndex);
+			console.log('>>>> myMarketIndex: ' + myMarketIndex);
 			acGetSymbolPrice = {
 				method: 'get',
 				url: markets[marketShortList[myMarketIndex]].url + markets[marketShortList[myMarketIndex]].symbolPriceUrlExtension + getpairName(arbitrageList[mySymbolIndex], marketShortList[myMarketIndex])
