@@ -125,7 +125,7 @@ function checkArbitrage() {
 }
 // Check Arbitrage
 checkArbitrage();
-setInterval(checkArbitrage(), 1000);
+//setInterval(checkArbitrage(), 1000);
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
