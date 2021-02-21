@@ -91,23 +91,16 @@ function mongoDelete(data) {
 }
 // BASIC FUNCTIONS
 function checkArbitrage() {
-	console.log(markets);
-	console.log(marketShortList);
 	var myMarketIndex;
 	var mySymbolIndex;
 	for (mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
 		for (myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-			console.log('>>>> mySymbolIndex: ' + mySymbolIndex);
-			console.log('>>>> myMarketIndex: ' + myMarketIndex);
 			getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex])
 		}
 	}
-	console.log('>>>> mySymbolIndex OUT: ' + mySymbolIndex);
-	console.log('>>>> myMarketIndex OUT: ' + myMarketIndex);
 }
 // Check Arbitrage
-checkArbitrage();
-//setInterval(checkArbitrage(), 1000);
+setInterval(checkArbitrage(), 1000);
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
