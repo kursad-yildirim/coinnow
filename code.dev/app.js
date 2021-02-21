@@ -151,8 +151,7 @@ function getSymbolPrice(marketName, symbolName) {
 				symbolData[marketName] = symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName];
 			}
 			//	mongoUpdate(symbolData);
-			console.log(symbolData);
-			//			console.log(marketName + '->' + symbolData[markets[marketName].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
+			console.log(symbolData[markets[marketName].symbolFormat.symbolPropertyName] + marketName + '->' + ': ' + symbolData[markets[marketName].symbolFormat.symbolPricePropertyName]);
 		})
 		.catch(function (error) {
 			console.log(error);
