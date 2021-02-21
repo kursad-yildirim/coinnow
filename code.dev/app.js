@@ -91,6 +91,8 @@ function mongoDelete(data) {
 }
 // BASIC FUNCTIONS
 function checkArbitrage() {
+	console.log(markets);
+	console.log(marketShortList);
 	var acGetSymbolPrice = {};
 	var symbolInfo;
 	var symbolData = {
