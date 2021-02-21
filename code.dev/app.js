@@ -90,7 +90,7 @@ function mongoDelete(data) {
 	}
 }
 // Check Arbitrage
-setInterval(checkArbitrage(), 1000);
+setInterval(checkArbitrage, 1000);
 // BASIC FUNCTIONS
 function checkArbitrage() {
 	var myMarketIndex;
