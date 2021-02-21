@@ -130,6 +130,7 @@ function checkArbitrage() {
 				});
 		}
 	}
+	
 	console.log('>>>> mySymbolIndex OUT: ' + mySymbolIndex);
 	console.log('>>>> myMarketIndex OUT: ' + myMarketIndex);
 }
