@@ -107,6 +107,8 @@ function checkArbitrage() {
 			};
 			axios(acGetSymbolPrice)
 				.then(function (response) {
+					console.log('>>>> Index: ' + myMarketIndex);
+					console.log('>>>> Market: ' + marketShortList[myMarketIndex]);
 					if (markets[marketShortList[myMarketIndex]].symbolFormat.pricePath != 'none') {
 						symbolInfo = response.data[markets[marketShortList[myMarketIndex]].symbolFormat.path];
 					} else {
