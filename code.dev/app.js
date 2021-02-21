@@ -89,6 +89,8 @@ function mongoDelete(data) {
 		console.log({ operationName: 'delete', operationStatus: 'CoinNow-Error-101' });
 	}
 }
+// Check Arbitrage
+setInterval(checkArbitrage(), 1000);
 // BASIC FUNCTIONS
 function checkArbitrage() {
 	var myMarketIndex;
@@ -99,8 +101,6 @@ function checkArbitrage() {
 		}
 	}
 }
-// Check Arbitrage
-setInterval(checkArbitrage(), 1000);
 function getSymbolList(marketName) {
 	console.log('Getting symbol list from ' + marketName + ' network:');
 	var acGetSymbolList = {
