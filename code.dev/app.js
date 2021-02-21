@@ -93,44 +93,15 @@ function mongoDelete(data) {
 function checkArbitrage() {
 	console.log(markets);
 	console.log(marketShortList);
-	var acGetSymbolPrice = {};
-	var symbolInfo;
-	var symbolData = {
-		coinName: arbitrageList[mySymbolIndex],
-		tradingCurrency: tradingCurrency
-	};
 	var myMarketIndex;
 	var mySymbolIndex;
 	for (mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
 		for (myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
 			console.log('>>>> mySymbolIndex: ' + mySymbolIndex);
 			console.log('>>>> myMarketIndex: ' + myMarketIndex);
-			acGetSymbolPrice = {
-				method: 'get',
-				url: markets[marketShortList[myMarketIndex]].url + markets[marketShortList[myMarketIndex]].symbolPriceUrlExtension + getpairName(arbitrageList[mySymbolIndex], marketShortList[myMarketIndex])
-			};
-			axios(acGetSymbolPrice)
-				.then(function (response) {
-					console.log('>>>> Index: ' + myMarketIndex);
-					console.log('>>>> Market: ' + marketShortList[myMarketIndex]);
-					if (markets[marketShortList[myMarketIndex]].symbolFormat.pricePath != 'none') {
-						symbolInfo = response.data[markets[marketShortList[myMarketIndex]].symbolFormat.path];
-					} else {
-						symbolInfo = response.data;
-					}
-					if (Array.isArray(symbolInfo)) {
-						symbolData[marketShortList[myMarketIndex]] = symbolInfo[0][markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName];
-					} else {
-						symbolData[marketShortList[myMarketIndex]] = symbolInfo[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName];
-					}
-					console.log(marketShortList[myMarketIndex] + '->' + symbolData[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPropertyName] + ': ' + symbolData[markets[marketShortList[myMarketIndex]].symbolFormat.symbolPricePropertyName]);
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
+			getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex])
 		}
 	}
-	
 	console.log('>>>> mySymbolIndex OUT: ' + mySymbolIndex);
 	console.log('>>>> myMarketIndex OUT: ' + myMarketIndex);
 }
