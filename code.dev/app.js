@@ -51,7 +51,6 @@ function normalizeMarket(symbolName, marketName) {
 
 	return symbolPrice;
 }
-
 function writeToDB(symbolData){
 	console.log(symbolData);
 }
