@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 var markets = {
 	binance: {
 		url: 'https://api.binance.com',
