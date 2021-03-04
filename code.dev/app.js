@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 const crypto = require('crypto');
 const appName = process.env.APP_NAME;
+const appPort = process.env.APP_PORT;
 const dbRestUrl = process.env.DB_REST_URL;
 const tradingCurrency = 'USDT';
 const markets = require('./data/markets');
@@ -50,6 +51,7 @@ function normalizeMarket(symbolName, marketName) {
 
 	return symbolPrice;
 }
+
 function writeToDB(symbolData){
 	console.log(symbolData);
 }
