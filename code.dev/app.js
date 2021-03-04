@@ -39,6 +39,7 @@ var markets = {
 };
 var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
+
 // BASIC FUNCTIONS
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
