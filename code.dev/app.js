@@ -1,5 +1,4 @@
 const axios = require('axios').default;
-const crypto = require('crypto');
 const appName = process.env.APP_NAME;
 const appPort = process.env.APP_PORT;
 const dbRestUrl = process.env.DB_REST_URL;
@@ -9,6 +8,8 @@ const markets = require('./data/markets');
 
 var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
+
+getSymbolPrice('binance','BTC');
 
 
 function getSymbolPrice(marketName, symbolName) {
