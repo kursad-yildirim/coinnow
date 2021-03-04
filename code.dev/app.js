@@ -1,9 +1,7 @@
 const axios = require('axios').default;
 const crypto = require('crypto');
-const coinNowDb = require('./modules/mongodb.util');
 const appName = 'coinnow';
 const tradingCurrency = 'USDT';
-coinNowDb.init();
 
 var markets = {
 	binance: {
@@ -41,53 +39,7 @@ var markets = {
 };
 var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
 var marketShortList = ['binance', 'btcturk'];
-var arbitrageList = ['XTZ'];
-// Get Prices for my ShortList
-/*for (var mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
-	for (var myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-		getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex]);
-	}
-}*/
-
 // BASIC FUNCTIONS
-function checkArbitrage() {
-	var myMarketIndex;
-	var mySymbolIndex;
-	for (mySymbolIndex = 0; mySymbolIndex < arbitrageList.length; mySymbolIndex++) {
-		for (myMarketIndex = 0; myMarketIndex < marketShortList.length; myMarketIndex++) {
-			getSymbolPrice(marketShortList[myMarketIndex], arbitrageList[mySymbolIndex])
-		}
-	}
-}
-// Check Arbitrage
-setInterval(checkArbitrage, 1000);
-function getSymbolList(marketName) {
-	console.log('Getting symbol list from ' + marketName + ' network:');
-	var acGetSymbolList = {
-		method: 'get',
-		url: markets[marketName].url + markets[marketName].symbolListUrlExtension
-	};
-	axios(acGetSymbolList)
-		.then(function (response) {
-			var symbolArray = [];
-			var symbolNameArray = [];
-			if (markets[marketName].symbolFormat.path != 'none') {
-				symbolArray = response.data[markets[marketName].symbolFormat.path];
-			} else {
-				symbolArray = response.data;
-			}
-			for (var symbolIndex = 0; symbolIndex < symbolArray.length; symbolIndex++) {
-				if (symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName].includes(tradingCurrency)) {
-					symbolNameArray.push(symbolArray[symbolIndex][markets[marketName].symbolFormat.symbolPropertyName]);
-				}
-			}
-			console.log(symbolNameArray);
-		})
-		.catch(function (error) {
-			console.log('--> failed to get symbol list');
-			console.log(error);
-		});
-}
 function getSymbolPrice(marketName, symbolName) {
 	var acGetSymbolPrice = {
 		method: 'get',
