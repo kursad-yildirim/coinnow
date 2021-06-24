@@ -1,64 +1,65 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var router = express.Router();
+const axios = require('axios').default;
+const appName = process.env.APP_NAME;
+const appPort = process.env.APP_PORT;
+const dbRestUrl = process.env.DB_REST_URL;
+const tradingCurrency = 'USDT';
+const markets = require('./data/markets');
 
-const axios = require('axios');
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
 
-app.use('/api', router);
-router.route('/record-enemy').post(function(req, res, next){
-	res.json([{tripkoStatus: 'page data received'}]);
-//	updateEnemy(req.body);
-});
+var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
+var marketShortList = ['binance', 'btcturk'];
 
-function updateEnemy(reqBody){
+console.log('>>>>>>>>>>>>>>>>>>>>>>');
+console.log(markets);
+console.log('>>>>>>>>>>>>>>>>>>>>>>');
+allMarkets = markets.markets;
+console.log('>>>>>>>>>>>>>>>>>>>>>>');
+console.log(allMarkets);
+console.log('>>>>>>>>>>>>>>>>>>>>>>');
 
-        var acGetEnemy =  {
-                method: 'post',
-                url: 'http://tripko-read-db-record-service:12380/api/read',
-                data: {
-                        operation: 'enemyStats',
-                        data: {name: reqBody.data.name},
-			columnSelect: []
-                }
-        };
-	axios(acGetEnemy)
-		.then(function (response){
-		        var enemy = {};
-		        var enemyAttributes = Object.keys(reqBody.data);
-		        for (var attrIndex = 0; attrIndex < enemyAttributes.length; attrIndex++){
-		                if (reqBody.data[enemyAttributes[attrIndex]].value != -999){
-					enemy[enemyAttributes[attrIndex]] = reqBody.data[enemyAttributes[attrIndex]];	
-		                } else {
-					if (response.data[0].hasOwnProperty(enemyAttributes[attrIndex])){
-						enemy[enemyAttributes[attrIndex]] = response.data[0][enemyAttributes[attrIndex]];
-					} else {
-						enemy[enemyAttributes[attrIndex]] = reqBody.data[enemyAttributes[attrIndex]];
-					}
-				}
-		        }
-			var acRecordEnemy =  {
-                		method: 'post',
-                		url: 'http://tripko-update-db-record-service:12380/api/update',
-                		data: {
-                        		operation: 'enemyStats',
-                        		data: enemy
-                		}
-        		};
-        		axios(acRecordEnemy)
-                		.catch(function (error) {
-                        		console.log(error);
-                		});
-		})
-                .catch(function (error) {
-                        console.log(error);
-                });
+getSymbolPrice('binance','BTC');
 
+
+function getSymbolPrice(marketName, symbolName) {
+  var acGetSymbolPrice = {
+    method: 'get',
+    url: allMarkets[marketName].url + allMarkets[marketName].symbolPriceUrlExtension + getpairName(symbolName, marketName)
+  };
+  axios(acGetSymbolPrice)
+    .then(function (response) {
+      var symbolData = {
+        name: symbolName,
+        market: marketName,
+        price: 0,
+        tradingCurrency: tradingCurrency
+      };
+      symbolData.price = normalizeMarket(symbolName, marketName, response.data);
+      writeToDB(symbolData);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
+function getpairName(symbolName, marketName) {
+  return symbolName + allMarkets[marketName].symbolFormat.pairSeperator + tradingCurrency;
+}
+function normalizeMarket(symbolName, marketName, responseData) {
+  var symbolInfo;
+  var symbolPrice = 0;
+  if (allMarkets[marketName].symbolFormat.pricePath != 'none') {
+    symbolInfo = responseData[allMarkets[marketName].symbolFormat.path];
+  } else {
+    symbolInfo = responseData;
+  }
 
-var port = 52380;
-var server = app.listen(port, function (){
-	console.log('Server running at port:' + port + '/');
-});
+  if (Array.isArray(symbolInfo)) {
+    symbolPrice = symbolInfo[0][allMarkets[marketName].symbolFormat.symbolPricePropertyName];
+  } else {
+    symbolPrice = symbolInfo[allMarkets[marketName].symbolFormat.symbolPricePropertyName];
+  }
+
+  return symbolPrice;
+}
+function writeToDB(symbolData){
+  console.log(symbolData);
+}
