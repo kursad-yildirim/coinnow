@@ -3,27 +3,20 @@ const appName = process.env.APP_NAME;
 const appPort = process.env.APP_PORT;
 const dbRestUrl = process.env.DB_REST_URL;
 const tradingCurrency = 'USDT';
-const markets = require('./data/markets');
+const markets = require('./data/markets').markets;
 
 
-var symbolShortList = ['BTC', 'ETH', 'XTZ', 'LTC', 'ADA', 'XLM'];
-var marketShortList = ['binance', 'btcturk'];
+var symbolShortList = ['BTC', 'ETH', 'HNT'];
+var homeCoefficient = {BTC: 6000, ETH:600, HNT: 24};
 
-console.log('>>>>>>>>>>>>>>>>>>>>>>');
-console.log(markets);
-console.log('>>>>>>>>>>>>>>>>>>>>>>');
-allMarkets = markets.markets;
-console.log('>>>>>>>>>>>>>>>>>>>>>>');
-console.log(allMarkets);
-console.log('>>>>>>>>>>>>>>>>>>>>>>');
-
-getSymbolPrice('binance','BTC');
-
+for (var symbolIndex = 0; symbolIndex < symbolShortList.length; symbolIndex++){
+  getSymbolPrice('binance',symbolShortList[symbolIndex]);
+}
 
 function getSymbolPrice(marketName, symbolName) {
   var acGetSymbolPrice = {
     method: 'get',
-    url: allMarkets[marketName].url + allMarkets[marketName].symbolPriceUrlExtension + getpairName(symbolName, marketName)
+    url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + getpairName(symbolName, marketName)
   };
   axios(acGetSymbolPrice)
     .then(function (response) {
@@ -34,32 +27,33 @@ function getSymbolPrice(marketName, symbolName) {
         tradingCurrency: tradingCurrency
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
-      writeToDB(symbolData);
+      normalizeToHome(symbolData);
     })
     .catch(function (error) {
       console.log(error);
     });
 }
 function getpairName(symbolName, marketName) {
-  return symbolName + allMarkets[marketName].symbolFormat.pairSeperator + tradingCurrency;
+  return symbolName + markets[marketName].symbolFormat.pairSeperator + tradingCurrency;
 }
 function normalizeMarket(symbolName, marketName, responseData) {
   var symbolInfo;
   var symbolPrice = 0;
-  if (allMarkets[marketName].symbolFormat.pricePath != 'none') {
-    symbolInfo = responseData[allMarkets[marketName].symbolFormat.path];
+  if (markets[marketName].symbolFormat.pricePath != 'none') {
+    symbolInfo = responseData[markets[marketName].symbolFormat.path];
   } else {
     symbolInfo = responseData;
   }
 
   if (Array.isArray(symbolInfo)) {
-    symbolPrice = symbolInfo[0][allMarkets[marketName].symbolFormat.symbolPricePropertyName];
+    symbolPrice = symbolInfo[0][markets[marketName].symbolFormat.symbolPricePropertyName];
   } else {
-    symbolPrice = symbolInfo[allMarkets[marketName].symbolFormat.symbolPricePropertyName];
+    symbolPrice = symbolInfo[markets[marketName].symbolFormat.symbolPricePropertyName];
   }
 
   return symbolPrice;
 }
-function writeToDB(symbolData){
-  console.log(symbolData);
+function normalizeToHome(symbolData){
+  symbolData.price = Math.round( 100 * symbolData.price / homeCoefficient[symbolData.name] ) / 100;
+  console.log(symbolData.name + '/TL = ' + symbolData.price );
 }
