@@ -38,7 +38,7 @@ spec:
     - name: $MICROSERVICE-container
       image: $REGISTRY/$MICROSERVICE-$APP:$TAG
       ports:
-        - name: $MICROSERVICE-port
+        - name: nodejs-port
           protocol: TCP
           containerPort: $PORT
 EOLPODYAML
@@ -57,7 +57,7 @@ spec:
     microservice: $MICROSERVICE
   type: ClusterIP
   ports:
-    - name: $MICROSERVICE-port
+    - name: nodejs-port
       protocol: TCP
       port: 52380
       targetPort: 52380
