@@ -23,7 +23,7 @@ function getSymbolPrice(marketName, symbolName) {
         market: marketName,
         price: 0,
         tradingCurrency: tradingCurrency,
-        coinPriceTime = Date.now()
+        coinPriceTime: Date.now()
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
       storeData(symbolData)
