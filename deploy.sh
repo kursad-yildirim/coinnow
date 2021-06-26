@@ -102,4 +102,4 @@ EOLCONFIGMAPYAML
 # create new kube resources
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml
-kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-pod.yaml
+kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml
