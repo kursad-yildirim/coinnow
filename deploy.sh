@@ -8,11 +8,11 @@ TAG=$1
 PORT='52380'
 APPDIR=$WORKDIR/$APP/$MICROSERVICE
 NAMESPACE="8-mega-apps"
-DBNAME= "coin-prices";
-DBSERVICENAME= "svc-mongodb";
-DBNAMESPACE= "8-mega-data";
-DBPORT= 27017;
-DBREQUIRED= 'coinPriceTime';
+DBNAME="coin-prices";
+DBSERVICENAME="svc-mongodb";
+DBNAMESPACE="8-mega-data";
+DBPORT=27017;
+DBREQUIRED='coinPriceTime';
 
 # Create Dockerfile
 cat > $APPDIR/code.dev/Dockerfile << EOLDOCKERFILE
