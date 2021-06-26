@@ -4,8 +4,6 @@ const tradingCurrency = 'USDT';
 const markets = require('./data/markets').markets;
 const targetDB = require('./modules/mongodb.util');
 targetDB.init();
-var dbData = {};
-////////
 
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
 
@@ -24,7 +22,8 @@ function getSymbolPrice(marketName, symbolName) {
         name: symbolName,
         market: marketName,
         price: 0,
-        tradingCurrency: tradingCurrency
+        tradingCurrency: tradingCurrency,
+        coinPriceTime = Date.now()
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
       storeData(symbolData)
@@ -54,7 +53,6 @@ function normalizeMarket(symbolName, marketName, responseData) {
   return symbolPrice;
 }
 function storeData(symbolData){
-  symbolData.coinPriceTime = Date.now();
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
     console.log({operationName: 'create', operationStatus: 'ok'});
