@@ -1,10 +1,11 @@
 const axios = require('axios').default;
-const appName = process.env.APP_NAME;
-const appPort = process.env.APP_PORT;
-const dbRestUrl = process.env.DB_REST_URL;
+const databaseName = process.env.DB_NAME;
 const tradingCurrency = 'USDT';
 const markets = require('./data/markets').markets;
-
+const targetDB = require('./modules/mongodb.util');
+targetDB.init();
+var dbData = {};
+////////
 
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
 var homeCoefficient = {BTC: 6000, ETH:600, HNT: 24};
@@ -27,6 +28,7 @@ function getSymbolPrice(marketName, symbolName) {
         tradingCurrency: tradingCurrency
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
+      storeData(symbolData)
       normalizeToHome(symbolData);
     })
     .catch(function (error) {
@@ -56,4 +58,14 @@ function normalizeMarket(symbolName, marketName, responseData) {
 function normalizeToHome(symbolData){
   symbolData.price = Math.round( 100 * symbolData.price / homeCoefficient[symbolData.name] ) / 100;
   console.log(symbolData.name + '/TL = ' + symbolData.price );
+}
+function storeData(symbolData){
+  symbolData.coinPriceTiome = Date.now();
+  targetDB[databaseName].create(symbolData).then(success).catch(failure);
+  function success(data){
+          res.json({operationName: 'create', operationStatus: 'ok'});
+  }
+  function failure(error){
+          res.json({operationName: 'create', operationStatus: 'Error-101'});
+  }
 }

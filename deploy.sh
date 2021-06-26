@@ -8,6 +8,11 @@ TAG=$1
 PORT='52380'
 APPDIR=$WORKDIR/$APP/$MICROSERVICE
 NAMESPACE="8-mega-apps"
+DBNAME: "coin-prices";
+DBSERVICENAME: "svc-mongodb";
+DBNAMESPACE: "8-mega-data";
+DBPORT: 27017;
+DBREQUIRED: 'coinPriceTime';
 
 # Create Dockerfile
 cat > $APPDIR/code.dev/Dockerfile << EOLDOCKERFILE
@@ -41,6 +46,9 @@ spec:
         - name: nodejs-port
           protocol: TCP
           containerPort: $PORT
+      envFrom:
+        configMapRef:
+          name: $MICROSERVICE
 EOLPODYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml << EOLSVCYAML
 apiVersion: v1
@@ -62,10 +70,30 @@ spec:
       port: 52380
       targetPort: 52380
 EOLSVCYAML
+cat > $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml << EOLCONFIGMAPYAML
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: $MICROSERVICE
+  namespace: $NAMESPACE
+  labels:
+    app: $APP
+    microservice: $MICROSERVICE
+data:
+  DB_NAME: $DBNAME
+  DB_SVC_NAME: $DBSERVICENAME
+  DB_NAMESPACE: $DBNAMESPACE
+  DB_PORT: $DBPORT
+  DB_REQUIRED: $DBREQUIRED
+  APP_NAME: $APP
+  APP_PORT: $PORT
+EOLCONFIGMAPYAML
 
 # delete existing  kube resources
 kubectl -n $NAMESPACE delete pod $MICROSERVICE
 kubectl -n $NAMESPACE delete svc $MICROSERVICE
+kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 # create new kube resources
-kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-pod.yaml
+kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml
+kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-pod.yaml
