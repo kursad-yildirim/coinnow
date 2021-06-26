@@ -28,7 +28,7 @@ sudo $CONTAINER build $WORKDIR/$APP/$MICROSERVICE/code.dev -t $REGISTRY/$MICROSE
 sudo $CONTAINER push $REGISTRY/$MICROSERVICE-$APP:$TAG
 
 # Create k8s resource  yaml files
-cat > $APPDIR/kube.resource.files/$MICROSERVICE-pod.yaml << EOLPODYAML
+cat > $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml << EOLPODYAML
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -53,7 +53,7 @@ spec:
             imagePullPolicy: IfNotPresent
             envFrom:
              - configMapRef:
-               name: $MICROSERVICE
+                 name: $MICROSERVICE
           restartPolicy: OnFailure
 EOLPODYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml << EOLSVCYAML
@@ -94,7 +94,8 @@ data:
 EOLCONFIGMAPYAML
 
 # delete existing  kube resources
-kubectl -n $NAMESPACE delete pod $MICROSERVICE
+rm -R $APPDIR/kube.resource.files/*.yaml
+kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
 kubectl -n $NAMESPACE delete svc $MICROSERVICE
 kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 # create new kube resources
