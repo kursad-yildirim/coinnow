@@ -27,6 +27,12 @@ EOLDOCKERFILE
 sudo $CONTAINER build $WORKDIR/$APP/$MICROSERVICE/code.dev -t $REGISTRY/$MICROSERVICE-$APP:$TAG
 sudo $CONTAINER push $REGISTRY/$MICROSERVICE-$APP:$TAG
 
+# delete existing  kube resources
+rm -R $APPDIR/kube.resource.files/*.yaml
+kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
+kubectl -n $NAMESPACE delete svc $MICROSERVICE
+kubectl -n $NAMESPACE delete configmap $MICROSERVICE
+
 # Create k8s resource  yaml files
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml << EOLPODYAML
 apiVersion: batch/v1
@@ -93,11 +99,6 @@ data:
   DB_REQUIRED: $DBREQUIRED
 EOLCONFIGMAPYAML
 
-# delete existing  kube resources
-rm -R $APPDIR/kube.resource.files/*.yaml
-kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
-kubectl -n $NAMESPACE delete svc $MICROSERVICE
-kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 # create new kube resources
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml
