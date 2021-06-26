@@ -5,7 +5,6 @@ WORKDIR='/home/workspace'
 APP="home-crypto"
 MICROSERVICE="getsymbolprice"
 TAG=$1
-PORT='52380'
 APPDIR=$WORKDIR/$APP/$MICROSERVICE
 NAMESPACE="8-mega-apps"
 DBNAME="coin-prices";
@@ -30,8 +29,8 @@ sudo $CONTAINER push $REGISTRY/$MICROSERVICE-$APP:$TAG
 
 # Create k8s resource  yaml files
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-pod.yaml << EOLPODYAML
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: CronJob
 metadata:
   name: $MICROSERVICE
   namespace: $NAMESPACE
@@ -39,16 +38,23 @@ metadata:
     app: $APP
     microservice: $MICROSERVICE
 spec:
-  containers:
-    - name: $MICROSERVICE-container
-      image: $REGISTRY/$MICROSERVICE-$APP:$TAG
-      ports:
-        - name: nodejs-port
-          protocol: TCP
-          containerPort: $PORT
-      envFrom:
-        - configMapRef:
-            name: $MICROSERVICE
+  schedule: "0 */1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: $APP
+            microservice: $MICROSERVICE
+        spec:
+          containers:
+          - name: $MICROSERVICE-container
+            image: $REGISTRY/$MICROSERVICE-$APP:$TAG
+            imagePullPolicy: IfNotPresent
+            envFrom:
+             - configMapRef:
+               name: $MICROSERVICE
+          restartPolicy: OnFailure
 EOLPODYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml << EOLSVCYAML
 apiVersion: v1
@@ -85,8 +91,6 @@ data:
   DB_NAMESPACE: $DBNAMESPACE
   DB_PORT: "$DBPORT"
   DB_REQUIRED: $DBREQUIRED
-  APP_NAME: $APP
-  APP_PORT: "$PORT"
 EOLCONFIGMAPYAML
 
 # delete existing  kube resources
