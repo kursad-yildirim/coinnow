@@ -3,7 +3,7 @@
 	const mongoose = require('mongoose');
 	const databaseName = process.env.DB_NAME;
 	const databasePort = process.env.DB_PORT;
-    const databaseServer = process.env.DB_SVC_NAME + '.' + process.name.DB_NAMESPACE;
+    const databaseServer = process.env.DB_SVC_NAME + '.' + process.env.DB_NAMESPACE;
 	const requiredFieldName = process.env.DB_REQUIRED;
       var databaseConfig = {
 		server: databaseServer + ':' + databasePort,
