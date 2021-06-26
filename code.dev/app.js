@@ -29,7 +29,6 @@ function getSymbolPrice(marketName, symbolName) {
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
       storeData(symbolData)
-      normalizeToHome(symbolData);
     })
     .catch(function (error) {
       console.log(error);
@@ -55,18 +54,13 @@ function normalizeMarket(symbolName, marketName, responseData) {
 
   return symbolPrice;
 }
-function normalizeToHome(symbolData){
-  symbolData.price = Math.round( 100 * symbolData.price / homeCoefficient[symbolData.name] ) / 100;
-  console.log(symbolData.name + '/TL = ' + symbolData.price );
-}
 function storeData(symbolData){
-  symbolData.coinPriceTiome = Date.now();
+  symbolData.coinPriceTime = Date.now();
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
           console.log({operationName: 'create', operationStatus: 'ok'});
   }
   function failure(error){
-    console.log({operationName: 'create', operationStatus: 'Error-101'});
     console.log(error);
   }
 }
