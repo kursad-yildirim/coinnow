@@ -8,7 +8,6 @@ var dbData = {};
 ////////
 
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
-var homeCoefficient = {BTC: 6000, ETH:600, HNT: 24};
 
 for (var symbolIndex = 0; symbolIndex < symbolShortList.length; symbolIndex++){
   getSymbolPrice('binance',symbolShortList[symbolIndex]);
@@ -58,7 +57,7 @@ function storeData(symbolData){
   symbolData.coinPriceTime = Date.now();
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
-          console.log({operationName: 'create', operationStatus: 'ok'});
+    console.log({operationName: 'create', operationStatus: 'ok'});
   }
   function failure(error){
     console.log(error);

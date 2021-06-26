@@ -29,7 +29,6 @@ sudo $CONTAINER push $REGISTRY/$MICROSERVICE-$APP:$TAG
 # delete existing  kube resources
 rm -R $APPDIR/kube.resource.files/*.yaml
 kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
-kubectl -n $NAMESPACE delete svc $MICROSERVICE
 kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 
 # Create k8s resource  yaml files
@@ -61,26 +60,6 @@ spec:
                  name: $MICROSERVICE
           restartPolicy: OnFailure
 EOLPODYAML
-cat > $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml << EOLSVCYAML
-apiVersion: v1
-kind: Service
-metadata:
-  name: $MICROSERVICE
-  namespace: $NAMESPACE
-  labels:
-    app: $APP
-    microservice: $MICROSERVICE
-spec:
-  selector:
-    app: $APP
-    microservice: $MICROSERVICE
-  type: ClusterIP
-  ports:
-    - name: nodejs-port
-      protocol: TCP
-      port: 52380
-      targetPort: 52380
-EOLSVCYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml << EOLCONFIGMAPYAML
 apiVersion: v1
 kind: ConfigMap
@@ -100,5 +79,4 @@ EOLCONFIGMAPYAML
 
 # create new kube resources
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml
-kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml
 kubectl create -f $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml
