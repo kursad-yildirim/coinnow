@@ -67,5 +67,6 @@ function storeData(symbolData){
   }
   function failure(error){
     console.log({operationName: 'create', operationStatus: 'Error-101'});
+    console.log(error);
   }
 }
