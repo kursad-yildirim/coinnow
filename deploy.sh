@@ -20,7 +20,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE $PORT
 CMD [ "npm", "start" ]
 EOLDOCKERFILE
 # Build and push docker image
