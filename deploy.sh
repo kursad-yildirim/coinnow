@@ -47,8 +47,8 @@ spec:
           protocol: TCP
           containerPort: $PORT
       envFrom:
-        configMapRef:
-          name: $MICROSERVICE
+        - configMapRef:
+            name: $MICROSERVICE
 EOLPODYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-svc.yaml << EOLSVCYAML
 apiVersion: v1
