@@ -63,9 +63,9 @@ function storeData(symbolData){
   symbolData.coinPriceTiome = Date.now();
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
-          res.json({operationName: 'create', operationStatus: 'ok'});
+          console.log({operationName: 'create', operationStatus: 'ok'});
   }
   function failure(error){
-          res.json({operationName: 'create', operationStatus: 'Error-101'});
+    console.log({operationName: 'create', operationStatus: 'Error-101'});
   }
 }
