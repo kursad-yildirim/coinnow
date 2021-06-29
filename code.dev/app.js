@@ -56,6 +56,7 @@ function storeData(symbolData, symbolIndex){
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
     console.log({operationName: 'create', operationStatus: 'ok'});
+    console.log(symbolIndex + '==' + symbolShortList.length );
     if ( symbolIndex == ( symbolShortList.length - 1 ) )
       targetDB.terminate();
   }
