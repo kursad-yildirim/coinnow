@@ -8,10 +8,10 @@ targetDB.init();
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
 
 for (var symbolIndex = 0; symbolIndex < symbolShortList.length; symbolIndex++){
-  getSymbolPrice('binance',symbolShortList[symbolIndex]);
+  getSymbolPrice('binance', symbolShortList[symbolIndex], symbolIndex);
 }
 
-function getSymbolPrice(marketName, symbolName) {
+function getSymbolPrice(marketName, symbolName, symbolIndex) {
   var acGetSymbolPrice = {
     method: 'get',
     url: markets[marketName].url + markets[marketName].symbolPriceUrlExtension + getpairName(symbolName, marketName)
@@ -26,7 +26,7 @@ function getSymbolPrice(marketName, symbolName) {
         coinPriceTime: Date.now()
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
-      storeData(symbolData)
+      storeData(symbolData, symbolIndex)
     })
     .catch(function (error) {
       console.log(error);
@@ -52,10 +52,12 @@ function normalizeMarket(symbolName, marketName, responseData) {
 
   return symbolPrice;
 }
-function storeData(symbolData){
+function storeData(symbolData, symbolIndex){
   targetDB[databaseName].create(symbolData).then(success).catch(failure);
   function success(data){
     console.log({operationName: 'create', operationStatus: 'ok'});
+    if ( symbolIndex == ( symbolShortList.length - 1 ) )
+      targetDB.terminate();
   }
   function failure(error){
     console.log(error);

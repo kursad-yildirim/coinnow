@@ -10,12 +10,12 @@
 		database: databaseName,
 	}
 	var Schema = mongoose.Schema;
+	var connectionString = 'mongodb://' + databaseConfig.server + '/' + databaseConfig.database;
 	function init(){
 		var options = {
 			useUnifiedTopology: true,
 			useNewUrlParser: true
 		}
-		var connectionString = 'mongodb://' + databaseConfig.server + '/' + databaseConfig.database;
 		mongoose.connect(connectionString,options)
 			.then(function(result){
 				console.log("MongoDb connection successful. DB: " + connectionString);
@@ -26,8 +26,19 @@
 			});
 		mongoose.set('useCreateIndex', true);
 	}
+	function terminate(){
+		mongoose.disconnect(connectionString)
+		.then(function(result){
+			console.log("MongoDb disconnection successful. DB: " + connectionString);
+		})
+		.catch(function(error){
+		   console.log(error.message);
+		   console.log("Error occured while disconnecting to DB: " + connectionString);
+		});
+	  }
 	var databaseSchema = new Schema({[requiredFieldName]: {type:String,required:true,unique:true},}, { strict: false });
 	
 	module.exports.init = init;
+	module.exports.terminate = terminate;
 	module.exports[databaseName] = mongoose.model(databaseName, databaseSchema);
 })();
