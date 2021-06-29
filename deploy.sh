@@ -42,7 +42,7 @@ metadata:
     app: $APP
     microservice: $MICROSERVICE
 spec:
-  schedule: "*/2 * * * *"
+  schedule: "12 */1 * * *"
   jobTemplate:
     spec:
       template:
