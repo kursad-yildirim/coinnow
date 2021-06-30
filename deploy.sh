@@ -42,7 +42,8 @@ metadata:
     app: $APP
     microservice: $MICROSERVICE
 spec:
-  ttlSecondsAfterFinished: 9600
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
   schedule: "0 */1 * * *"
   jobTemplate:
     spec:
