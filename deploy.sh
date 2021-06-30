@@ -42,7 +42,8 @@ metadata:
     app: $APP
     microservice: $MICROSERVICE
 spec:
-  schedule: "12 */1 * * *"
+  ttlSecondsAfterFinished: 9600
+  schedule: "0 */1 * * *"
   jobTemplate:
     spec:
       template:
