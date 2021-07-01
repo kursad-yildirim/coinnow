@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const databaseName = process.env.DB_NAME;
 const tradingCurrency = 'USDT';
-const markets = require('./data/markets').markets;
+const requiredFieldName = process.env.DB_REQUIRED;
 const targetDB = require('./modules/mongodb.util');
 targetDB.init();
 
@@ -26,7 +26,8 @@ function getSymbolPrice(marketName, symbolName, symbolIndex) {
         coinPriceTime: Date.now()
       };
       symbolData.price = normalizeMarket(symbolName, marketName, response.data);
-      storeData(symbolData, symbolIndex)
+      updateCurrentPrice(symbolData);
+      storeData(symbolData, symbolIndex);
     })
     .catch(function (error) {
       console.log(error);
@@ -58,6 +59,16 @@ function storeData(symbolData, symbolIndex){
     console.log({operationName: 'create', operationStatus: 'ok'});
     if ( symbolIndex == ( symbolShortList.length - 1 ) )
       targetDB.terminate();
+  }
+  function failure(error){
+    console.log(error);
+  }
+}
+function updateCurrentPrice(symbolData){
+  symbolData.coinPriceTime = 'latest_' + symbolData.name;
+  targetDB[databaseName].findOneAndUpdate({[requiredFieldName]: symbolData.coinPriceTime }, symbolData,{new: true, upsert:true}).then(success).catch(failure);
+  function success(data){
+    console.log({operationName: 'create', operationStatus: 'ok'});
   }
   function failure(error){
     console.log(error);
