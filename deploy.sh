@@ -23,8 +23,8 @@ COPY . .
 CMD [ "npm", "start" ]
 EOLDOCKERFILE
 # Build and push docker image
-sudo $CONTAINER build $APPDIR/code.dev -t $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE-$APP:$TAG
-sudo $CONTAINER push $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE-$APP:$TAG
+sudo $CONTAINER build $APPDIR/code.dev -t $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE:$TAG
+sudo $CONTAINER push $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE:$TAG
 
 # delete existing  kube resources
 rm -R $APPDIR/kube.resource.files/*
@@ -55,7 +55,7 @@ spec:
         spec:
           containers:
           - name: $MICROSERVICE-container
-            image: $REGISTRY/$MICROSERVICE-$APP:$TAG
+            image: $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE
             imagePullPolicy: IfNotPresent
             envFrom:
              - configMapRef:
