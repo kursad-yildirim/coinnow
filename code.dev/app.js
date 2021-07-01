@@ -3,8 +3,13 @@ const databaseName = process.env.DB_NAME;
 const tradingCurrency = 'USDT';
 const requiredFieldName = process.env.DB_REQUIRED;
 const targetDB = require('./modules/mongodb.util');
+const redisCache = require('./modules/redis.util');
 const markets = require('./data/markets').markets;
 targetDB.init();
+const redisClient = redisCache.createClient();
+redisClient.on('error', err => {
+  console.log('Error ' + err);
+});
 
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
 
@@ -74,4 +79,17 @@ function updateCurrentPrice(symbolData){
   function failure(error){
     console.log(error);
   }
+
+  redisClient.set('foo', 'bar', (err, reply) => {
+    if (err) throw err;
+    console.log(reply);
+
+    redisClient.get('foo', (err, reply) => {
+        if (err) throw err;
+        console.log(reply);
+    });
+});
+
+
+
 }
