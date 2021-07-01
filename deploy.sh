@@ -44,7 +44,7 @@ metadata:
 spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
-  schedule: "0 */1 * * *"
+  schedule: "52 */1 * * *"
   jobTemplate:
     spec:
       template:
@@ -55,7 +55,7 @@ spec:
         spec:
           containers:
           - name: $MICROSERVICE-container
-            image: $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE
+            image: $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE:$TAG
             imagePullPolicy: IfNotPresent
             envFrom:
              - configMapRef:
