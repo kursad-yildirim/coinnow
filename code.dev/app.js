@@ -3,6 +3,7 @@ const databaseName = process.env.DB_NAME;
 const tradingCurrency = 'USDT';
 const requiredFieldName = process.env.DB_REQUIRED;
 const targetDB = require('./modules/mongodb.util');
+const markets = require('./data/markets');
 targetDB.init();
 
 var symbolShortList = ['BTC', 'ETH', 'HNT'];
