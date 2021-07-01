@@ -8,8 +8,6 @@
 		host: redisHost,
 		port: redisPort
 	}
-	var Schema = mongoose.Schema;
-	var connectionString = 'mongodb://' + databaseConfig.server + '/' + databaseConfig.database;
 	function createClient(){
 		return client = redis.createClient({redisConfig});
 	}
