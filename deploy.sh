@@ -1,12 +1,12 @@
 #!/bin/bash
+TAG=$1
 REGISTRY='registry.8-mega.io'
 CONTAINER='/usr/bin/docker'
-WORKDIR='/home/workspace'
+WORKSPACE='/home/workspace'
+NAMESPACE="8-mega-apps"
 APP="home-crypto"
 MICROSERVICE="getsymbolprice"
-TAG=$1
-APPDIR=$WORKDIR/$APP/$MICROSERVICE
-NAMESPACE="8-mega-apps"
+APPDIR=$WORKSPACE/$NAMESPACE/$APP/$MICROSERVICE
 DBNAME="coin-prices";
 DBSERVICENAME="svc-mongodb";
 DBNAMESPACE="8-mega-data";
@@ -23,11 +23,11 @@ COPY . .
 CMD [ "npm", "start" ]
 EOLDOCKERFILE
 # Build and push docker image
-sudo $CONTAINER build $WORKDIR/$APP/$MICROSERVICE/code.dev -t $REGISTRY/$MICROSERVICE-$APP:$TAG
-sudo $CONTAINER push $REGISTRY/$MICROSERVICE-$APP:$TAG
+sudo $CONTAINER build $APPDIR/code.dev -t $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE-$APP:$TAG
+sudo $CONTAINER push $REGISTRY/$NAMESPACE/$APP/$MICROSERVICE-$APP:$TAG
 
 # delete existing  kube resources
-rm -R $APPDIR/kube.resource.files/*.yaml
+rm -R $APPDIR/kube.resource.files/*
 kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
 kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 
