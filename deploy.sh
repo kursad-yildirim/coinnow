@@ -32,7 +32,7 @@ kubectl -n $NAMESPACE delete cronjob $MICROSERVICE
 kubectl -n $NAMESPACE delete configmap $MICROSERVICE
 
 # Create k8s resource  yaml files
-cat > $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml << EOLPODYAML
+cat > $APPDIR/kube.resource.files/$MICROSERVICE-cronjob.yaml << EOLCRONJOBYAML
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -61,7 +61,7 @@ spec:
              - configMapRef:
                  name: $MICROSERVICE
           restartPolicy: OnFailure
-EOLPODYAML
+EOLCRONJOBYAML
 cat > $APPDIR/kube.resource.files/$MICROSERVICE-configmap.yaml << EOLCONFIGMAPYAML
 apiVersion: v1
 kind: ConfigMap
