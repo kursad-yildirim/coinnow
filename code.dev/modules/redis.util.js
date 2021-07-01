@@ -9,7 +9,7 @@
 		port: redisPort
 	}
 	function createClient(){
-		return client = redis.createClient({redisConfig});
+		return redis.createClient({redisConfig});
 	}
 	
 	module.exports.createClient = createClient;
