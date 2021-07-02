@@ -47,7 +47,7 @@ metadata:
 spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
-  schedule: "12 */1 * * *"
+  schedule: "13 */1 * * *"
   jobTemplate:
     spec:
       template:
@@ -80,7 +80,7 @@ data:
   DB_NAMESPACE: $DBNAMESPACE
   DB_PORT: "$DBPORT"
   DB_REQUIRED: $DBREQUIRED
-  REDIS_PORT: $REDISPORT
+  REDIS_PORT: "$REDISPORT"
   REDIS_SVC_NAME: $REDISSERVICENAME
   REDIS_NAMESPACE: $REDISNAMESPACE
 EOLCONFIGMAPYAML
