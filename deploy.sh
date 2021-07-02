@@ -44,7 +44,7 @@ metadata:
 spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
-  schedule: "01 */1 * * *"
+  schedule: "06 */1 * * *"
   jobTemplate:
     spec:
       template:
